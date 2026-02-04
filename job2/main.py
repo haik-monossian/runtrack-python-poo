@@ -24,14 +24,28 @@ class CompteBancaire:
         else:
             self.__decouvert = True
             self.__solde -= montant
+            self.agios()
             print(f"vous avez maintenant {self.get_afficher_solde()} euros")
+
+    def agios(self):
+        if self.__decouvert:
+            self.__solde += self.__solde * 0.05 # += car on est en négatif
+
+    def virement(self, CompteBancaire, montant: int):
+        self.set_retrait(montant)
+        CompteBancaire.set_versement(montant)
 
 
 c = CompteBancaire(1, "A", "B", 200)
+c2 = CompteBancaire(2, "C", "D", -100)
+
 print(c.get_afficher())
 print(c.get_afficher_solde())
 c.set_versement(10)
 print(c.get_afficher_solde())
 c.set_retrait(20)
 c.set_retrait(200)
-print(c.get_afficher_solde())
+
+print(c2.get_afficher_solde())
+c.virement(c2, 100)
+print(c2.get_afficher_solde())
